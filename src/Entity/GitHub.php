@@ -3,7 +3,6 @@
 namespace App\Entity;
 
 use App\Repository\GitHubRepository;
-use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\SerializedName;
 
@@ -27,19 +26,19 @@ class GitHub
     #[SerializedName('html_url')]
     private ?string $url = null;
 
-    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    #[ORM\Column]
     #[SerializedName('created_at')]
-    private ?\DateTimeInterface $createdDate = null;
+    private ?\DateTimeImmutable $createdDate = null;
 
-    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    #[ORM\Column]
     #[SerializedName('pushed_at')]
-    private ?\DateTimeInterface $lastPushDate = null;
+    private ?\DateTimeImmutable $lastPushDate = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, nullable: true)]
     #[SerializedName('description')]
     private ?string $description = null;
 
-    #[ORM\Column]
+    #[ORM\Column(nullable: true)]
     #[SerializedName('stargazers_count')]
     private ?int $starGazersCount = null;
 
@@ -84,14 +83,26 @@ class GitHub
         return $this;
     }
 
-    public function getCreatedDate(): ?\DateTimeInterface
+    public function getCreatedDate(): ?\DateTimeImmutable
     {
         return $this->createdDate;
     }
 
-    public function setCreatedDate(\DateTimeInterface $createdDate): self
+    public function setCreatedDate(\DateTimeImmutable $createdDate): self
     {
         $this->createdDate = $createdDate;
+
+        return $this;
+    }
+
+    public function getLastPushDate(): ?\DateTimeImmutable
+    {
+        return $this->lastPushDate;
+    }
+
+    public function setLastPushDate(\DateTimeImmutable $lastPushDate): self
+    {
+        $this->lastPushDate = $lastPushDate;
 
         return $this;
     }
@@ -101,7 +112,7 @@ class GitHub
         return $this->description;
     }
 
-    public function setDescription(string $description): self
+    public function setDescription(?string $description): self
     {
         $this->description = $description;
 
@@ -113,21 +124,9 @@ class GitHub
         return $this->starGazersCount;
     }
 
-    public function setStarGazersCount(int $starGazersCount): self
+    public function setStarGazersCount(?int $starGazersCount): self
     {
         $this->starGazersCount = $starGazersCount;
-
-        return $this;
-    }
-
-    public function getLastPushDate(): ?\DateTimeInterface
-    {
-        return $this->lastPushDate;
-    }
-
-    public function setLastPushDate(\DateTimeInterface $lastPushDate): self
-    {
-        $this->lastPushDate = $lastPushDate;
 
         return $this;
     }

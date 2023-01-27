@@ -16,9 +16,9 @@ class GitHubHelper
     ) {
     }
 
-    public function searchRepos()
+    public function searchRepos(): ArrayCollection
     {
-        $url = 'https://api.github.com/search/repositories?q=language:php&sort=stars&order=desc&per_page=10&page=1';
+        $url = 'https://api.github.com/search/repositories?q=language:php&sort=stars&order=desc&per_page=100&page=1';
         $response = $this->client->request(
             'GET',
             $url,
