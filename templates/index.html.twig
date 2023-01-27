@@ -1,5 +1,25 @@
 {% extends "base.html.twig" %}
 
 {% block body %}
-
+<div class="container">
+	<table class="table">
+		<thead>
+			<tr>
+				<th scope="col">Project Name</th>
+				<th scope="col">Stars</th>
+                <th></th>
+			</tr>
+		</thead>
+		<tbody>
+            {% for repo in repos %}
+            {# @var repo App\Entity\GitHub #}
+                <tr>
+                    <td>{{ repo.name }}</td>
+                    <td>{{ repo.starGazersCount }}</td>
+                    <td><button type="button" class="btn btn-secondary btn-sm">Details</button></td>
+                </tr>
+            {% endfor %}
+		</tbody>
+	</table>
+</div>
 {% endblock body %}
