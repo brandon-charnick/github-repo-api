@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\GitHubRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\SerializedName;
 
 #[ORM\Entity(repositoryClass: GitHubRepository::class)]
 class GitHub
@@ -15,24 +16,31 @@ class GitHub
     private ?int $id = null;
 
     #[ORM\Column]
+    #[SerializedName('id')]
     private ?int $repoId = null;
 
     #[ORM\Column(length: 255)]
+    #[SerializedName('name')]
     private ?string $name = null;
 
     #[ORM\Column(length: 255)]
+    #[SerializedName('html_url')]
     private ?string $url = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    #[SerializedName('created_at')]
     private ?\DateTimeInterface $createdDate = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    #[SerializedName('pushed_at')]
     private ?\DateTimeInterface $lastPushDate = null;
 
     #[ORM\Column(length: 255)]
+    #[SerializedName('description')]
     private ?string $description = null;
 
     #[ORM\Column]
+    #[SerializedName('stargazers_count')]
     private ?int $starGazersCount = null;
 
     public function getId(): ?int
