@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use App\Helper\GitHubHelper;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -11,8 +12,11 @@ use Symfony\Component\Routing\Annotation\Route;
 class IndexController extends AbstractController
 {
     #[Route('/', name:"index")]
-    public function number(): Response
+    public function index(GitHubHelper $gitHubHelper): Response
     {
+        $repos = $gitHubHelper->searchRepos();
+
+        dd($repos);
 
         return $this->render('index.html.twig');
     }
