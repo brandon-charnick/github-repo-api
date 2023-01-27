@@ -16,8 +16,8 @@ class IndexController extends AbstractController
     {
         $repos = $gitHubHelper->searchRepos();
 
-        dd($repos);
-
-        return $this->render('index.html.twig');
+        return $this->render('index.html.twig', [
+            'repos' => $repos
+        ]);
     }
 }
