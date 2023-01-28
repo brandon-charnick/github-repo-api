@@ -8,37 +8,46 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 use App\Serializer\GitHubSerializer;
 
+/**
+ * https://docs.github.com/en/search-github/searching-on-github/searching-code
+ */
 class GitHubHelper
 {
     public function __construct(
         private readonly HttpClientInterface $client,
-        private readonly GitHubSerializer $serializer
+        private readonly GitHubSerializer $serializer,
+        private readonly string $gitHubSearchUrl
     ) {
     }
 
-    public function searchRepos()
+    public function searchRepos(int $perPage=10): ArrayCollection
     {
-        $url = 'https://api.github.com/search/repositories?q=language:php&sort=stars&order=desc&per_page=10&page=1';
         $response = $this->client->request(
             'GET',
-            $url,
+            $this->gitHubSearchUrl,
             [
                 'headers' => [
                     'Accept' => 'application/json',
                 ],
+                'query' => [
+                    'q' => 'language:php',
+                    'sort' => 'stars',
+                    'order' => 'desc',
+                    'per_page' => $perPage
+                ]
             ]
         );
 
         $items = $response->toArray()['items'];
 
-        $return = new ArrayCollection();
+        $repositories = new ArrayCollection();
 
         foreach ($items as $item) {
             // denormalize each item into GitHub entity
             $github = $this->serializer->denormalizeEntity($item);
-            $return->add($github);
+            $repositories->add($github);
         }
 
-        return $return;
+        return $repositories;
     }
 }
