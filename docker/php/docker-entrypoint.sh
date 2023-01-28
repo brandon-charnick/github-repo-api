@@ -5,8 +5,8 @@ if [ -f composer.json ]; then
     composer install 
 fi
 
-php bin/console doctrine:migrations:migrate --no-interaction --allow-no-migration
-# php bin/console app:load-repos
+bin/console doctrine:migrations:migrate --no-interaction --allow-no-migration
+bin/console app:load-github
 
 exec "$@"
 

@@ -26,6 +26,10 @@ class GitHub
     #[SerializedName('html_url')]
     private ?string $url = null;
 
+    #[ORM\Column(length: 255)]
+    #[SerializedName('url')]
+    private ?string $apiUrl = null;
+
     #[ORM\Column]
     #[SerializedName('created_at')]
     private ?\DateTimeImmutable $createdDate = null;
@@ -34,7 +38,7 @@ class GitHub
     #[SerializedName('pushed_at')]
     private ?\DateTimeImmutable $lastPushDate = null;
 
-    #[ORM\Column(length: 255, nullable: true)]
+    #[ORM\Column(type: 'text', nullable: true)]
     #[SerializedName('description')]
     private ?string $description = null;
 
@@ -79,6 +83,18 @@ class GitHub
     public function setUrl(string $url): self
     {
         $this->url = $url;
+
+        return $this;
+    }
+
+    public function getApiUrl(): ?string
+    {
+        return $this->apiUrl;
+    }
+
+    public function setApiUrl(string $apiUrl): self
+    {
+        $this->apiUrl = $apiUrl;
 
         return $this;
     }
