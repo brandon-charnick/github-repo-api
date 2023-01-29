@@ -18,8 +18,8 @@ It is composed of the following containers:
 
 1. Clone this repository
 2. Run `docker compose up`, or `docker compose up -d` to run the containers as daemons
-3. Visit http://localhost
+3. Visit <http://localhost>, allow ample time for the startup processes to run as noted below.
 
 ### Container start notes
 
-The PHP container will automatically install all composer dependencies and preload the database with the top 10 PHP repositories.
+The PHP container will automatically install all composer dependencies, run database migrations, and preload the database with the top 10 PHP repositories.
