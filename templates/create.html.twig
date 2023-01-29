@@ -1,0 +1,13 @@
+{% extends "base.html.twig" %}
+
+{% block title %}PHP Starred Repos{% endblock %}
+
+{% block body %}
+<div class="container mt-3">
+	<div class="d-flex justify-content-end">
+		<a href="{{ path("index") }}" class="btn btn-primary">View List</a>
+	</div>
+
+	{{ form(form) }}
+</div>
+{% endblock body %}

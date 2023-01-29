@@ -4,23 +4,24 @@ declare(strict_types=1);
 
 namespace App\Helper;
 
+use App\Entity\GitHub;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
-use App\Serializer\GitHubSerializer;
+use Symfony\Component\Serializer\SerializerInterface;
 
 /**
- * https://docs.github.com/en/search-github/searching-on-github/searching-code
+ * https://docs.github.com/en/rest/search?apiVersion=2022-11-28
  */
 class GitHubHelper
 {
     public function __construct(
         private readonly HttpClientInterface $client,
-        private readonly GitHubSerializer $serializer,
+        private readonly SerializerInterface $serializer,
         private readonly string $gitHubSearchUrl
     ) {
     }
 
-    public function searchRepos(int $perPage=10): ArrayCollection
+    public function searchRepositories(int $perPage = 10): ArrayCollection
     {
         $response = $this->client->request(
             'GET',
@@ -43,11 +44,27 @@ class GitHubHelper
         $repositories = new ArrayCollection();
 
         foreach ($items as $item) {
-            // denormalize each item into GitHub entity
-            $github = $this->serializer->denormalizeEntity($item);
+            $item = json_encode($item);
+            // deserialize each item into a GitHub entity
+            $github = $this->serializer->deserialize($item, GitHub::class, 'json');
             $repositories->add($github);
         }
 
         return $repositories;
+    }
+
+    public function getRepository(GitHub $gitHub): string
+    {
+        $response = $this->client->request(
+            'GET',
+            $gitHub->getApiUrl(),
+            [
+                'headers' => [
+                    'Accept' => 'application/json',
+                ],
+            ]
+        );
+
+        return $response->getContent();
     }
 }

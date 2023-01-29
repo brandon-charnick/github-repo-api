@@ -1,0 +1,53 @@
+{% extends "base.html.twig" %}
+{# @var gitHub App\Entity\GitHub #}
+
+{% block title %}{{ gitHub.name }} Repository Details{% endblock %}
+
+{% block body %}
+<div class="container mt-3">
+	<div class="d-flex justify-content-end">
+        <a href="{{ path("update", {'id': gitHub.id}) }}" class="btn btn-primary me-2">Update</a>
+        <a href="{{ path("delete", {'id': gitHub.id}) }}" class="btn btn-primary me-2">Delete</a>
+		<a href="{{ path("index") }}" class="btn btn-primary">View List</a>
+	</div>
+
+    <h1>{{ gitHub.name }} Repository Details</h1>
+
+    <table class="table table-bordered table-sm">
+		<tbody>
+            <tr>
+                <td>Repository Name</td>
+                <td>{{ gitHub.name }}</td>
+            </tr>
+            <tr>
+                <td>Repository ID</td>
+                <td>{{ gitHub.repoId }}</td>
+            </tr>
+            <tr>
+                <td>Created</td>
+                <td>{{ gitHub.createdDate|date("m/d/Y") }}</td>
+            </tr>
+            <tr>
+                <td>Last Push</td>
+                <td>{{ gitHub.lastPushDate|date("m/d/Y") }}</td>
+            </tr>
+            <tr>
+                <td>Stars Count</td>
+                <td>{{ gitHub.starGazersCount }}</td>
+            </tr>
+            <tr>
+                <td>Description</td>
+                <td>{{ gitHub.description }}</td>
+            </tr>
+            <tr>
+                <td>URL</td>
+                <td><a href="{{ gitHub.url }}" target="_blank">{{ gitHub.url }}</a></td>
+            </tr>
+            <tr>
+                <td>API URL</td>
+                <td><a href="{{ gitHub.apiUrl }}" target="_blank">{{ gitHub.apiUrl }}</a></td>
+            </tr>
+		</tbody>
+	</table>
+</div>
+{% endblock body %}

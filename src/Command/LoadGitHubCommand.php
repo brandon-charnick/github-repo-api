@@ -11,6 +11,8 @@ use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Serializer\Normalizer\AbstractObjectNormalizer;
+use Symfony\Component\Serializer\SerializerInterface;
 
 #[AsCommand(
     name: 'app:load-github',
@@ -22,18 +24,19 @@ class LoadGitHubCommand extends Command
 {
     public function __construct(
         private readonly GitHubHelper $gitHubHelper,
-        private readonly EntityManagerInterface $em
+        private readonly EntityManagerInterface $em,
+        private readonly SerializerInterface $serializer
     ) {
         parent::__construct();
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $repos = $this->gitHubHelper->searchRepos(10);
+        $repositories = $this->gitHubHelper->searchRepositories(10);
         $gitHubRepo = $this->em->getRepository(GitHub::class);
 
         /** @var App\Entity\GitHub $repo */
-        foreach ($repos as $repo) {
+        foreach ($repositories as $repo) {
             $gitHub = $gitHubRepo->findOneBy(
                 [
                     'repoId' => $repo->getRepoId()
@@ -41,6 +44,11 @@ class LoadGitHubCommand extends Command
             );
             if (!$gitHub instanceof GitHub) {
                 $this->em->persist($repo);
+            } else {
+                $this->serializer->deserialize($this->serializer->serialize($repo, 'json'), GitHub::class, 'json', [
+                    AbstractObjectNormalizer::OBJECT_TO_POPULATE => $gitHub,
+                ]);
+                $this->em->persist($gitHub);
             }
         }
         $this->em->flush();

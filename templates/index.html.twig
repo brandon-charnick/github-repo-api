@@ -3,12 +3,16 @@
 {% block title %}PHP Starred Repos{% endblock %}
 
 {% block body %}
-<div class="container">
-	<table class="table">
+<div class="container mt-3">
+	<div class="d-flex justify-content-end mb-2">
+		<a href="{{ path("create") }}" class="btn btn-primary">Add Repos</a>
+	</div>
+
+	<table class="table table-bordered">
 		<thead>
 			<tr>
-				<th scope="col">Project Name</th>
-				<th scope="col">Stars</th>
+				<th scope="col">Repository Name</th>
+				<th scope="col">Stars Count</th>
                 <th></th>
 			</tr>
 		</thead>
@@ -18,7 +22,7 @@
                 <tr>
                     <td>{{ repo.name }}</td>
                     <td>{{ repo.starGazersCount }}</td>
-                    <td><button type="button" class="btn btn-secondary btn-sm">Details</button></td>
+                    <td><a href="{{ path("details", {'id': repo.id}) }}" class="btn btn-secondary btn-sm">Details</a></td>
                 </tr>
             {% endfor %}
 		</tbody>

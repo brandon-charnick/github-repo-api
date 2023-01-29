@@ -23,8 +23,8 @@
 	<body>
 		<nav class="navbar navbar-expand-lg navbar-light bg-light">
 			<div class="container-fluid">
-				<a class="navbar-brand" href="#">GitHub Repositories</a>
-				<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+				<a class="navbar-brand" href="{{ path("index") }}">Top PHP GitHub Repositories</a>
+				{# <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
 					<span class="navbar-toggler-icon"></span>
 				</button>
 				<div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -33,19 +33,24 @@
 							<a class="nav-link active" aria-current="page" href="#">Most Starred PHP List</a>
 						</li>
 					</ul>
-				</div>
+				</div> #}
 			</div>
 		</nav>
+		{% for message in app.flashes('success') %}
+            <div class="alert alert-success">
+                {{ message }}
+            </div>
+        {% endfor %}
 		{% block body %}{% endblock %}
 
 		<div class="container">
 			<footer class="py-3 my-4">
 				<ul class="nav justify-content-center border-bottom pb-3 mb-3">
 					<li class="nav-item">
-						<a href="#" class="nav-link px-2 text-muted">Brandon Charnick</a>
+						<p class="px-2 text-muted">Brandon Charnick</p>
 					</li>
 				</ul>
-				<p class="text-center text-muted">https://github.com/brandon-charnick/github-repo-api</p>
+				<p class="text-center text-muted"><a href="https://github.com/brandon-charnick/github-repo-api" target="_blank">https://github.com/brandon-charnick/github-repo-api</a></p>
 			</footer>
 		</div>
 	</body>
