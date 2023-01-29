@@ -2,6 +2,12 @@
 set -e
 
 if [ -f composer.json ]; then
+    if [ -d vendor ]; then
+        rm -r vendor
+    fi
+    if [ -d var ]; then
+        rm -r var
+    fi
     composer install 
 fi
 
